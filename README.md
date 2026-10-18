@@ -13,8 +13,9 @@
 Instagram's website has no data saver. This userscript adds one: a small widget in the top-right corner that controls video quality and click-to-load, like the data saver on Twitter/X.
 
 <p align="center">
-  <img src="docs/widget-panel.png" width="320" alt="Widget panel">
-  <img src="docs/click-to-load.png" width="320" alt="Load video button">
+  <img src="docs/widget-panel.png" height="400" alt="Widget panel">
+  &nbsp;&nbsp;
+  <img src="docs/click-to-load.png" height="400" alt="Load video button">
 </p>
 
 ## Features
