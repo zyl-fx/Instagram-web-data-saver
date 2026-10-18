@@ -13,15 +13,18 @@
 Instagram's website has no data saver. This userscript adds one: a small widget in the top-right corner that controls video quality and click-to-load, like the data saver on Twitter/X.
 
 <p align="center">
-  <img src="docs/widget-panel.png" height="400" alt="Widget panel">
+  <img src="docs/widget-panel.png" height="350" alt="Widget panel">
   &nbsp;&nbsp;
-  <img src="docs/click-to-load.png" height="400" alt="Load video button">
+  <img src="docs/click-to-load.png" height="350" alt="Load video button">
 </p>
+
 
 ## Features
 
 - **Video quality switcher.** Auto, Best, Worst, plus resolution caps (for example *Up to 720p*) when Instagram offers enough resolutions.
+- **Auto really means Auto.** In Auto the script changes nothing, so Instagram keeps adapting quality to your connection.
 - **Click to load.** Turn off *Auto-load videos* and every video waits behind a **Load video** button.
+- **Works in the feed, Reels and Stories.**
 - **Private.** No network requests of its own, no analytics, no accounts. Settings stay in your browser.
 
 ## Install
@@ -30,10 +33,8 @@ You need a userscript manager, and on Chrome-based browsers you must also switch
 
 ### 1. Install a userscript manager
 
-| Browser | Install |
-| --- | --- |
-| Chrome, Edge, Brave, Opera, Vivaldi | [Tampermonkey](https://www.tampermonkey.net/) (or [Violentmonkey](https://violentmonkey.github.io/)) from your browser's extension store |
-| Firefox | [Tampermonkey](https://addons.mozilla.org/firefox/addon/tampermonkey/) or [Violentmonkey](https://addons.mozilla.org/firefox/addon/violentmonkey/) from Firefox Add-ons |
+- **Chrome, Edge, Brave, Opera, Vivaldi:** [Tampermonkey](https://www.tampermonkey.net/) (or [Violentmonkey](https://violentmonkey.github.io/)) from your browser's extension store
+- **Firefox:** [Tampermonkey](https://addons.mozilla.org/firefox/addon/tampermonkey/) or [Violentmonkey](https://addons.mozilla.org/firefox/addon/violentmonkey/) from Firefox Add-ons
 
 ### 2. Allow user scripts (Chrome, Edge, Brave and other Chromium browsers)
 
@@ -74,14 +75,12 @@ Open [instagram.com](https://www.instagram.com/). A small label appears in the t
 
 ## Using the widget
 
-| Option | What it does |
-| --- | --- |
-| **Auto** (default) | Instagram chooses the quality and adapts to your connection. Nothing is modified. |
-| **Best** | Always the highest quality available. |
-| **Up to 720p** *(etc.)* | Never above that resolution, but still adapts below it. Shown only after at least three different resolutions have been seen. |
-| **Worst** | Always the lowest quality available. Least data. |
-| **Auto-load videos** | On: videos load as usual. Off: click **Load video** on each one. |
-| **Load N held videos** | Appears while auto-load is off and videos are waiting. Loads all of them at once. |
+- **Auto** (default): Instagram chooses the quality and adapts to your connection. Nothing is modified.
+- **Best**: Always the highest quality available.
+- **Up to 720p** *(etc.)*: Never above that resolution, but still adapts below it. Shown only after at least three different resolutions have been seen.
+- **Worst**: Always the lowest quality available. Least data.
+- **Auto-load videos**: On: videos load as usual. Off: click **Load video** on each one.
+- **Load N held videos**: Appears while auto-load is off and videos are waiting. Loads all of them at once.
 
 - Quality changes apply to videos loaded afterwards. Press **Reload to apply** to change videos already on screen.
 - The auto-load switch takes effect immediately. Turning it back on releases every held video.
@@ -95,12 +94,10 @@ Instagram gives each video a ladder of renditions, usually several bitrates at 7
 
 ## Troubleshooting
 
-| Problem | Fix |
-| --- | --- |
-| The widget doesn't appear | Check step 2 (**Allow User Scripts** or **Developer mode**), make sure the script is enabled in your manager's dashboard, then reload Instagram. |
-| Changing quality seems to do nothing | Press **Reload to apply**. Already-loaded videos keep their quality. |
-| A video is stuck with auto-load off | Open the widget and press **Load N held videos**, or turn **Auto-load videos** back on. |
-| Another script or extension interferes | Disable other Instagram userscripts and try again. |
+- **The widget doesn't appear:** Check step 2 (**Allow User Scripts** or **Developer mode**), make sure the script is enabled in your manager's dashboard, then reload Instagram.
+- **Changing quality seems to do nothing:** Press **Reload to apply**. Already-loaded videos keep their quality.
+- **A video is stuck with auto-load off:** Open the widget and press **Load N held videos**, or turn **Auto-load videos** back on.
+- **Another script or extension interferes:** Disable other Instagram userscripts and try again.
 
 To collect debug output, run this in the browser console (F12), then reload the page:
 
@@ -114,11 +111,9 @@ Found a bug? [Open an issue](https://github.com/zyl-fx/Instagram-web-data-saver/
 
 ## Compatibility
 
-| Browser | Status |
-| --- | --- |
-| Chrome, Edge, Brave (desktop) | Supported. Needs **Allow User Scripts** or **Developer mode**. |
-| Firefox (desktop) | Supported. |
-| Safari, mobile browsers | Not tested. In Safari the install link may download the file instead of opening an install page. |
+- **Chrome, Edge, Brave (desktop):** Supported. Needs **Allow User Scripts** or **Developer mode**.
+- **Firefox (desktop):** Supported.
+- **Safari, mobile browsers:** Not tested. In Safari the install link may download the file instead of opening an install page.
 
 Instagram changes its site often, so something may stop working without warning. Please report it.
 
