@@ -4,7 +4,8 @@
 
 **Cut data use on Instagram web.** Pick a video quality, and make videos load only when you click them.
 
-[![Install](https://img.shields.io/badge/Install-userscript-brightgreen?style=for-the-badge)](https://github.com/zyl-fx/Instagram-web-data-saver/releases/latest/download/Instagram-Web-Data-Saver.user.js)
+[![Install](https://img.shields.io/badge/Install-github-brightgreen?style=for-the-badge)](https://github.com/zyl-fx/Instagram-web-data-saver/releases/latest/download/Instagram-Web-Data-Saver.user.js)
+[![Greasy Fork](https://img.shields.io/badge/Install-Greasy%20Fork-670000?style=for-the-badge)](https://greasyfork.org/en/scripts/600943-instagram-web-data-saver)
 [![Release](https://img.shields.io/github/v/release/zyl-fx/Instagram-web-data-saver?style=for-the-badge)](https://github.com/zyl-fx/Instagram-web-data-saver/releases/latest)
 [![License: MIT](https://img.shields.io/github/license/zyl-fx/Instagram-web-data-saver?style=for-the-badge)](LICENSE)
 
@@ -68,6 +69,8 @@ Your userscript manager opens an installation page. Click **Install**. This link
 If you see plain code instead, the manager isn't installed, is disabled, or step 2 was skipped. Do step 2, then open the link again.
 
 **Manual install:** open the Tampermonkey dashboard, click the **+** tab, paste the contents of [`Instagram-Web-Data-Saver.user.js`](Instagram-Web-Data-Saver.user.js), and save with **Ctrl+S**.
+
+Prefer Greasy Fork? You can also install it from [Greasy Fork](https://greasyfork.org/en/scripts/600943-instagram-web-data-saver).
 
 ### 4. Use it
 
