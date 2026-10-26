@@ -4,8 +4,7 @@
 
 **Cut data use on Instagram web.** Pick a video quality, and make videos load only when you click them.
 
-[![Install](https://img.shields.io/badge/Install-github-brightgreen?style=for-the-badge)](https://github.com/zyl-fx/Instagram-web-data-saver/releases/latest/download/Instagram-Web-Data-Saver.user.js)
-[![Greasy Fork](https://img.shields.io/badge/Install-Greasy%20Fork-670000?style=for-the-badge)](https://greasyfork.org/en/scripts/600943-instagram-web-data-saver)
+[![Install](https://img.shields.io/badge/Install-userscript-brightgreen?style=for-the-badge)](https://github.com/zyl-fx/Instagram-web-data-saver/releases/latest/download/Instagram-Web-Data-Saver.user.js)
 [![Release](https://img.shields.io/github/v/release/zyl-fx/Instagram-web-data-saver?style=for-the-badge)](https://github.com/zyl-fx/Instagram-web-data-saver/releases/latest)
 [![License: MIT](https://img.shields.io/github/license/zyl-fx/Instagram-web-data-saver?style=for-the-badge)](LICENSE)
 
@@ -19,11 +18,9 @@ Instagram's website has no data saver. This userscript adds one: a small widget 
   <img src="docs/click-to-load.png" height="350" alt="Load video button">
 </p>
 
-
 ## Features
 
 - **Video quality switcher.** Auto, Best, Worst, plus resolution caps (for example *Up to 720p*) when Instagram offers enough resolutions.
-- **Auto really means Auto.** In Auto the script changes nothing, so Instagram keeps adapting quality to your connection.
 - **Click to load.** Turn off *Auto-load videos* and every video waits behind a **Load video** button.
 - **Works in the feed, Reels and Stories.**
 - **Private.** No network requests of its own, no analytics, no accounts. Settings stay in your browser.
@@ -70,7 +67,7 @@ If you see plain code instead, the manager isn't installed, is disabled, or step
 
 **Manual install:** open the Tampermonkey dashboard, click the **+** tab, paste the contents of [`Instagram-Web-Data-Saver.user.js`](Instagram-Web-Data-Saver.user.js), and save with **Ctrl+S**.
 
-Prefer Greasy Fork? You can also install it from [Greasy Fork](https://greasyfork.org/en/scripts/600943-instagram-web-data-saver).
+Prefer **Greasy Fork**? You can also install it from [Greasy Fork](https://greasyfork.org/en/scripts/600943-instagram-web-data-saver).
 
 ### 4. Use it
 
@@ -91,7 +88,7 @@ Open [instagram.com](https://www.instagram.com/). A small label appears in the t
 
 ### About the quality options
 
-Instagram gives each video a ladder of renditions, usually several bitrates at 720p, often one 1080p rendition, and sometimes a 360p one. The set varies from video to video, so the widget builds its list from what it has actually seen. With only two resolutions you get Auto, Best and Worst.
+Instagram gives each video a ladder of renditions, usually several bitrates at 720p, often one 1080p rendition, and sometimes a 360p one. The set varies from video to video, so the widget builds its list from what it has actually seen, grouping odd sizes into standard tiers such as 1080p, 720p, 540p and 360p. With only two resolutions you get Auto, Best and Worst.
 
 *Worst* picks the lowest bitrate at the lowest resolution, so it can look soft even when the resolution is still 720p.
 
@@ -141,8 +138,6 @@ The script makes no network requests of its own and collects nothing. Your setti
 Bug reports, ideas and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Contributors
-
-Thanks to everyone who has helped.
 
 <a href="https://github.com/zyl-fx/Instagram-web-data-saver/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=zyl-fx/Instagram-web-data-saver" alt="Contributors" />

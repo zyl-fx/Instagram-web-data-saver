@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Instagram Web Data Saver
 // @namespace    https://github.com/zyl-fx
-// @version      1.0.0
+// @version      1.0.1
 // @description  Save data on Instagram web: pick a video quality (Auto, Best, Worst or a resolution cap) and optionally click to load videos instead of auto-loading them.
 // @author       Zyl
 // @license      MIT
@@ -38,6 +38,22 @@
   const STORE_KEY = 'igds:v1';
   const DEBUG_KEY = 'igds:debug';
   const STANDARD_TIERS = [144, 240, 360, 480, 540, 720, 1080, 1440, 2160];
+
+  // Instagram serves many odd sizes (1188, 970, 888 ... depending on aspect
+  // ratio). Group them into the nearest standard tier so the menu stays short.
+  const snap = (v) => {
+    if (!(v >= 100)) return v;
+    let best = STANDARD_TIERS[0];
+    let bestDist = Infinity;
+    for (const t of STANDARD_TIERS) {
+      const d = Math.abs(Math.log(v / t));
+      if (d < bestDist) {
+        bestDist = d;
+        best = t;
+      }
+    }
+    return best;
+  };
 
   const nativeParse = JSON.parse; // never use the hooked version internally
   const noop = () => {};
@@ -83,10 +99,18 @@
       if (!raw) return;
       const o = nativeParse(raw);
       if (!o) return;
-      if (isValidQuality(o.quality)) state.quality = o.quality;
+      if (isValidQuality(o.quality)) {
+        state.quality = o.quality.startsWith('cap:') ? 'cap:' + snap(Number(o.quality.slice(4))) : o.quality;
+      }
       if (typeof o.autoLoad === 'boolean') state.autoLoad = o.autoLoad;
       if (Array.isArray(o.tiers)) {
-        state.tiers = o.tiers.filter((n) => Number.isFinite(n) && n >= 144).sort((a, b) => b - a);
+        const clean = o.tiers.filter((n) => Number.isFinite(n) && n >= 100).map(snap);
+        state.tiers = Array.from(new Set(clean)).sort((a, b) => b - a);
+      }
+      if (state.quality.startsWith('cap:')) {
+        const cap = capOf(state.quality);
+        const inner = state.tiers.length > 2 ? state.tiers.slice(1, -1) : [];
+        if (!inner.includes(cap)) state.quality = 'auto';
       }
     } catch (_) {}
   }
@@ -111,10 +135,6 @@
    *  "Quality" below = the short side of the frame (720x1280 reel -> 720).
    * ====================================================================== */
 
-  const snap = (v) => {
-    for (const s of STANDARD_TIERS) if (Math.abs(v - s) / s <= 0.06) return s;
-    return v;
-  };
 
   function noteTier(q) {
     if (q < 144 || state.tiers.includes(q)) return;
@@ -836,19 +856,20 @@
   // Auto, Best, [resolution caps], Worst. Caps only appear once Instagram has
   // shown us at least three different resolutions.
   function qualityOptions() {
-    const mid = state.tiers.length > 2 ? state.tiers.slice(1, -1) : [];
+    const caps = state.tiers.length > 2 ? state.tiers.slice(1, -1) : [];
+    if (state.quality.startsWith('cap:') && !caps.includes(capOf(state.quality))) {
+      caps.push(capOf(state.quality)); // keep a saved choice visible, in order
+      caps.sort((x, y) => y - x);
+    }
     const list = [
       { id: 'auto', label: 'Auto', hint: 'Instagram chooses and adapts to your connection (default).' },
       { id: 'best', label: 'Best', hint: 'Always the highest quality available.' },
     ];
-    mid.forEach((t) => list.push({
+    caps.forEach((t) => list.push({
       id: 'cap:' + t,
       label: labelFor('cap:' + t, true),
       hint: 'Never above ' + t + 'p. Still adapts to your connection below that.',
     }));
-    if (state.quality.startsWith('cap:') && !list.some((o) => o.id === state.quality)) {
-      list.push({ id: state.quality, label: labelFor(state.quality, true), hint: '' });
-    }
     list.push({ id: 'worst', label: 'Worst', hint: 'Always the lowest quality available (least data).' });
     return list;
   }
@@ -859,8 +880,10 @@
 .root{display:flex;flex-direction:column;align-items:flex-end}
 .pill{appearance:none;border:1px solid rgba(255,255,255,.12);background:rgba(18,18,18,.78);color:inherit;font:inherit;font-weight:600;padding:3px 11px;border-radius:999px;cursor:pointer;opacity:.6;transition:opacity .15s;white-space:nowrap}
 .root:hover .pill,.root:focus-within .pill,.root.open .pill{opacity:1}
-.panel{display:none;margin-top:6px;width:212px;padding:10px 10px 8px;border-radius:12px;background:rgba(18,18,18,.96);border:1px solid rgba(255,255,255,.1);box-shadow:0 10px 32px rgba(0,0,0,.45);animation:in .12s ease-out}
-.root:hover .panel,.root:focus-within .panel,.root.open .panel{display:block}
+.panel{display:none;flex-direction:column;margin-top:6px;width:212px;max-height:calc(100vh - 56px);max-height:calc(100dvh - 56px);padding:10px 10px 8px;border-radius:12px;background:rgba(18,18,18,.96);border:1px solid rgba(255,255,255,.1);box-shadow:0 10px 32px rgba(0,0,0,.45);animation:in .12s ease-out}
+.root:hover .panel,.root:focus-within .panel,.root.open .panel{display:flex}
+.panel>*{flex:none}
+.panel>.opts{flex:0 1 auto;min-height:72px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
 @keyframes in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .title{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9a9a9a;margin:0 2px 4px}
 .opt{display:flex;align-items:center;gap:9px;width:100%;appearance:none;border:0;background:transparent;color:inherit;font:inherit;text-align:left;padding:5px 6px;border-radius:7px;cursor:pointer}
@@ -910,7 +933,7 @@
     }
 
     const pill = h('button', { class: 'pill', type: 'button', title: 'Instagram Data Saver' });
-    const opts = h('div', { role: 'radiogroup', 'aria-label': 'Video quality' });
+    const opts = h('div', { class: 'opts', role: 'radiogroup', 'aria-label': 'Video quality' });
     const sw = h('button', {
       class: 'sw', type: 'button', role: 'switch',
       title: 'On: videos load automatically. Off: click "Load video" on each one.',
