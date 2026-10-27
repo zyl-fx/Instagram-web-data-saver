@@ -3,6 +3,8 @@ name: Update downloads badge
 # Adds up GitHub release downloads and Greasy Fork installs once a day and
 # stores the total in a small JSON file on a separate "badges" branch.
 # The README badge reads that file through shields.io.
+# Greasy Fork's website blocks requests from GitHub's servers, so the count is
+# read from its API address (api.greasyfork.org), which is meant for programs.
 
 on:
   schedule:
@@ -40,7 +42,7 @@ jobs:
           echo "2/2 Reading Greasy Fork installs..."
           UA="downloads-badge (+https://github.com/${GITHUB_REPOSITORY})"
           greasy=""
-          for url in "https://greasyfork.org/scripts/${GREASYFORK_ID}.json" "https://greasyfork.org/en/scripts/${GREASYFORK_ID}.json"; do
+          for url in "https://api.greasyfork.org/scripts/${GREASYFORK_ID}.json" "https://greasyfork.org/scripts/${GREASYFORK_ID}.json" "https://greasyfork.org/en/scripts/${GREASYFORK_ID}.json"; do
             echo "    Trying $url"
             rm -f gf.json
             code=$(curl -sSL -A "$UA" -o gf.json -w '%{http_code}' "$url" || echo "curl-failed")
