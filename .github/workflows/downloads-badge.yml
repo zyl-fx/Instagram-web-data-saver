@@ -28,10 +28,37 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          github=$(gh api --paginate "repos/${GITHUB_REPOSITORY}/releases" --jq '.[].assets[] | select(.name | endswith(".user.js")) | .download_count' | awk '{s+=$1} END {print s+0}')
-          greasy=$(curl -fsSL "https://greasyfork.org/scripts/${GREASYFORK_ID}.json" | jq -er '.total_installs')
+
+          echo "1/2 Counting GitHub release downloads..."
+          if ! raw=$(gh api --paginate "repos/${GITHUB_REPOSITORY}/releases" --jq '.[].assets[] | select(.name | endswith(".user.js")) | .download_count'); then
+            echo "::error::Could not read the GitHub releases (see the message above)."
+            exit 1
+          fi
+          github=$(printf '%s\n' "$raw" | awk '{s+=$1} END {print s+0}')
+          echo "    GitHub release downloads: $github"
+
+          echo "2/2 Reading Greasy Fork installs..."
+          UA="downloads-badge (+https://github.com/${GITHUB_REPOSITORY})"
+          greasy=""
+          for url in "https://greasyfork.org/scripts/${GREASYFORK_ID}.json" "https://greasyfork.org/en/scripts/${GREASYFORK_ID}.json"; do
+            echo "    Trying $url"
+            rm -f gf.json
+            code=$(curl -sSL -A "$UA" -o gf.json -w '%{http_code}' "$url" || echo "curl-failed")
+            echo "    HTTP status: $code"
+            if [ "$code" = "200" ] && value=$(jq -er '.total_installs' gf.json 2>/dev/null); then
+              greasy="$value"
+              break
+            fi
+            echo "    Response started with: $(head -c 200 gf.json 2>/dev/null || true)"
+          done
+          if [ -z "$greasy" ]; then
+            echo "::error::Could not read the Greasy Fork install count (see the status lines above)."
+            exit 1
+          fi
+          echo "    Greasy Fork installs: $greasy"
+
           total=$((github + greasy))
-          echo "GitHub releases: $github | Greasy Fork: $greasy | total: $total"
+          echo "Total: $total"
           echo "total=$total" >> "$GITHUB_OUTPUT"
 
       - name: Publish badge data
