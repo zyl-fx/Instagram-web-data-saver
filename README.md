@@ -5,6 +5,8 @@
 **Cut data use on Instagram web.** Pick a video quality, and make videos load only when you click them.
 
 [![Install](https://img.shields.io/badge/Install-userscript-brightgreen?style=for-the-badge)](https://github.com/zyl-fx/Instagram-web-data-saver/releases/latest/download/Instagram-Web-Data-Saver.user.js)
+[![Greasy Fork](https://img.shields.io/badge/Install-Greasy%20Fork-670000?style=for-the-badge)](https://greasyfork.org/en/scripts/600943-instagram-web-data-saver)
+[![Downloads](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fzyl-fx%2FInstagram-web-data-saver%2Fbadges%2Fdownloads.json&style=for-the-badge)](https://github.com/zyl-fx/Instagram-web-data-saver/releases)
 [![Release](https://img.shields.io/github/v/release/zyl-fx/Instagram-web-data-saver?style=for-the-badge)](https://github.com/zyl-fx/Instagram-web-data-saver/releases/latest)
 [![License: MIT](https://img.shields.io/github/license/zyl-fx/Instagram-web-data-saver?style=for-the-badge)](LICENSE)
 
@@ -31,7 +33,7 @@ You need a userscript manager, and on Chrome-based browsers you must also switch
 
 ### 1. Install a userscript manager
 
-- **Chrome, Edge, Brave, Opera, Vivaldi:** [Tampermonkey](https://www.tampermonkey.net/) (or [Violentmonkey](https://violentmonkey.github.io/)) from your browser's extension store
+- **Chrome, Edge, Brave, Opera, Vivaldi:** [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) (or [Violentmonkey](https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag)) from your browser's extension store
 - **Firefox:** [Tampermonkey](https://addons.mozilla.org/firefox/addon/tampermonkey/) or [Violentmonkey](https://addons.mozilla.org/firefox/addon/violentmonkey/) from Firefox Add-ons
 
 ### 2. Allow user scripts (Chrome, Edge, Brave and other Chromium browsers)
